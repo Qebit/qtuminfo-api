@@ -18,20 +18,24 @@ class InfoService extends Service {
 
   getTotalSupply() {
     let height = this.app.blockchainInfo.tip.height
-    if (height <= this.app.chain.lastPoWBlockHeight) {
-      return height * 20000
-    } else {
-      let supply = 1e8
-      let reward = 4
-      let interval = 985500
-      let stakeHeight = height - this.app.chain.lastPoWBlockHeight
-      let halvings = 0
-      while (halvings < 7 && stakeHeight > interval) {
-        supply += interval * reward / (1 << halvings++)
-        stakeHeight -= interval
-      }
-      supply += stakeHeight * reward / (1 << halvings)
-      return supply
+    if (height <= 600009) {
+      return height * 5000
+    }
+    else if(height > 600009 && height < 1790990 )
+    {
+	return  height * 3500
+    }
+    else if(height > 1790990 && height < 6459076)
+    {
+	return height * 2500
+    }
+    else if(height > 6459076 && height < 24906543)
+    {
+	return height * 50
+    }
+    else if(height > 24906543)
+    {
+	return height * 0.1
     }
   }
 
@@ -43,7 +47,7 @@ class InfoService extends Service {
     let height = this.app.blockchainInfo.tip.height
     let totalSupply = this.getTotalSupply(height)
     if (this.app.chain.name === 'mainnet') {
-      return totalSupply - 575e4
+      return totalSupply
     } else {
       return totalSupply
     }
@@ -67,7 +71,7 @@ class InfoService extends Service {
   }
 
   async getFeeRates() {
-    let client = new this.app.qtuminfo.rpc(this.app.config.qtuminfo.rpc)
+    let client = new this.app.qebitinfo.rpc(this.app.config.qebitinfo.rpc)
     let results = await Promise.all([2, 4, 6, 10, 12, 24].map(blocks => client.estimatesmartfee(blocks)))
     return [
       {blocks: 2, feeRate: results[0].feerate || 0.004},
@@ -80,7 +84,7 @@ class InfoService extends Service {
   }
 
   async getDGPInfo() {
-    let client = new this.app.qtuminfo.rpc(this.app.config.qtuminfo.rpc)
+    let client = new this.app.qebitinfo.rpc(this.app.config.qebitinfo.rpc)
     let info = await client.getdgpinfo()
     return {
       maxBlockSize: info.maxblocksize,

@@ -1,9 +1,9 @@
 {
-  "name": "qtuminfo-api",
+  "name": "qebitinfo-api",
   "private": true,
   "scripts": {
-    "start": "egg-scripts start --title=qtuminfo-api --sticky --daemon",
-    "stop": "egg-scripts stop --title=qtuminfo-api",
+    "start": "egg-scripts start --title=qebitinfo-api --sticky --daemon",
+    "stop": "egg-scripts stop --title=qebitinfo-api",
     "dev": "egg-bin dev",
     "lint": "eslint --ext .js app config"
   },

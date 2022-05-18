@@ -1,16 +1,16 @@
 const path = require('path')
 
-const CHAIN = Symbol('qtum.chain')
+const CHAIN = Symbol('qebit.chain')
 
 module.exports = {
   get chain() {
-    this[CHAIN] = this[CHAIN] || this.qtuminfo.lib.Chain.get(this.config.qtum.chain)
+    this[CHAIN] = this[CHAIN] || this.qebitinfo.lib.Chain.get(this.config.qebit.chain)
     return this[CHAIN]
   },
-  get qtuminfo() {
+  get qebitinfo() {
     return {
-      lib: require(path.resolve(this.config.qtuminfo.path, 'lib')),
-      rpc: require(path.resolve(this.config.qtuminfo.path, 'rpc'))
+      lib: require(path.resolve(this.config.qebitinfo.path, 'lib')),
+      rpc: require(path.resolve(this.config.qebitinfo.path, 'rpc'))
     }
   }
 }
